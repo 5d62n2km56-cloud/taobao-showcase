@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>淘宝 · 中国最领先的数字消费平台</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23FC834B'/><text x='50' y='68' font-size='52' font-weight='900' text-anchor='middle' fill='white' font-family='sans-serif'>淘</text></svg>">
+
+<!-- 阿里巴巴普惠体 -->
+<style>
+@font-face {
+  font-family: 'Alibaba PuHuiTi';
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/ZaneL1u/TTF-Min@main/dist/ttf%2Botf%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E6%99%AE%E6%83%A0%E4%BD%93/AlibabaPuHuiTi-3-55-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Alibaba PuHuiTi';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/ZaneL1u/TTF-Min@main/dist/ttf%2Botf%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E6%99%AE%E6%83%A0%E4%BD%93/AlibabaPuHuiTi-3-85-Bold.ttf') format('truetype');
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #FC834B;
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  color: #fff;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 全屏背景视频 —— 两个叠加，瞬时切换无过渡 */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+#video1 {
+  z-index: 7;
+  opacity: 1;
+}
+
+#video2 {
+  z-index: 6;
+  opacity: 0;
+}
+
+#video3 {
+  z-index: 5;
+  opacity: 0;
+}
+
+#video4 {
+  z-index: 4;
+  opacity: 0;
+}
+
+#video5 {
+  z-index: 3;
+  opacity: 0;
+}
+
+#video6 {
+  z-index: 2;
+  opacity: 0;
+}
+
+#video7 {
+  z-index: 1;
+  opacity: 0;
+}
+
+#video8 {
+  z-index: 0;
+  opacity: 0;
+}
+
+/* 左上角 Logo */
+.brand-logo {
+  position: fixed;
+  top: 14px;
+  left: 26px;
+  width: 96px;
+  height: auto;
+  filter: brightness(0) invert(1);
+  z-index: 20;
+  user-select: none;
+  pointer-events: none;
+  transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+.brand-logo.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* 结尾文字（画面上方，渐变出现） */
+.ending-text {
+  position: fixed;
+  top: 11%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.ending-text.visible {
+  opacity: 1;
+}
+
+.ending-line1 {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.5);
+  opacity: 0;
+  transform: translateY(-16px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.ending-text.visible .ending-line1 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ending-line2 {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.14em;
+  line-height: 1.6;
+  margin-top: 28px;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.45);
+  max-width: 720px;
+  opacity: 0;
+  transform: translateY(-16px);
+  transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+}
+
+.ending-text.visible .ending-line2 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 居中文字层 */
+.text-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-18%);
+  z-index: 10;
+  gap: 12px;
+  text-align: center;
+  padding: 20px;
+  transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+.text-layer.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.headline-sub {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  color: rgba(255,255,255,0.9);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.25);
+}
+
+.headline-cta {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  padding: 6px 4px;
+  user-select: none;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
+
+.headline-cta::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1.5px;
+  background: #fff;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.headline-cta:hover::after {
+  width: 100%;
+}
+
+/* 向下箭头 */
+.scroll-arrow {
+  position: fixed;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s;
+  user-select: none;
+}
+
+.scroll-arrow.visible {
+  opacity: 1;
+  visibility: visible;
+  animation: arrowFloat 2s ease-in-out infinite;
+}
+
+.scroll-arrow svg {
+  width: 36px;
+  height: 36px;
+  stroke: #FF4500;
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+  transition: transform 0.3s ease;
+}
+
+.scroll-arrow:hover svg {
+  transform: translateY(4px);
+}
+
+@keyframes arrowFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* 继续按钮（第三个视频就绪后显示，点击播放）—— 与向下箭头同款样式 */
+.continue-btn {
+  position: fixed;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 16;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s;
+  user-select: none;
+}
+
+.continue-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  animation: arrowFloat 2s ease-in-out infinite;
+}
+
+.continue-btn svg {
+  width: 36px;
+  height: 36px;
+  stroke: #FF4500;
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+  transition: transform 0.3s ease;
+}
+
+.continue-btn:hover svg {
+  transform: translateY(4px);
+}
+
+/* 第四个视频→第五个视频的继续按钮单独用白色 */
+#continueBtn4 svg {
+  stroke: #fff;
+}
+
+/* 最后一个继续按钮（回到开头）单独用白色 */
+#continueBtn7 svg {
+  stroke: #fff;
+}
+
+
+/* ===== 散落式销量数据标签 ===== */
+.data-labels {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.data-labels.visible {
+  opacity: 1;
+}
+
+.data-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  opacity: 0;
+  transform-origin: center;
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.data-labels.visible .data-label {
+  opacity: 1;
+}
+
+/* 依次延迟出现 */
+.data-labels.visible .data-label:nth-child(1) { transition-delay: 0.1s; }
+.data-labels.visible .data-label:nth-child(2) { transition-delay: 0.2s; }
+.data-labels.visible .data-label:nth-child(3) { transition-delay: 0.3s; }
+.data-labels.visible .data-label:nth-child(4) { transition-delay: 0.4s; }
+.data-labels.visible .data-label:nth-child(5) { transition-delay: 0.5s; }
+.data-labels.visible .data-label:nth-child(6) { transition-delay: 0.6s; }
+.data-labels.visible .data-label:nth-child(7) { transition-delay: 0.7s; }
+.data-labels.visible .data-label:nth-child(8) { transition-delay: 0.8s; }
+.data-labels.visible .data-label:nth-child(9) { transition-delay: 0.9s; }
+.data-labels.visible .data-label:nth-child(10) { transition-delay: 1.0s; }
+.data-labels.visible .data-label:nth-child(11) { transition-delay: 1.1s; }
+.data-labels.visible .data-label:nth-child(12) { transition-delay: 1.2s; }
+
+.data-num {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.data-text {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 14.5px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+  white-space: nowrap;
+}
+
+/* ===== 美妆数据 右侧垂直堆叠 ===== */
+.beauty-data {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.beauty-data.visible {
+  opacity: 1;
+}
+
+/* 垂直堆叠容器 —— 右侧垂直居中 */
+.beauty-stack {
+  position: fixed;
+  right: 56px;
+  top: 58%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(-50%) translateX(24px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+
+.beauty-data.visible .beauty-stack {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.beauty-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.beauty-num {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+}
+
+.beauty-label {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  white-space: nowrap;
+}
+
+/* ===== 服装数据 左侧垂直堆叠 ===== */
+.fashion-data {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.fashion-data.visible {
+  opacity: 1;
+}
+
+/* 垂直堆叠容器 —— 左侧垂直居中偏下，与右侧美妆数据镜像对称 */
+.fashion-stack {
+  position: fixed;
+  left: 110px;
+  top: 58%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(-50%) translateX(-24px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+
+.fashion-data.visible .fashion-stack {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.fashion-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.fashion-num {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+}
+
+.fashion-label {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  white-space: nowrap;
+}
+
+/* ===== 服装数据 右侧垂直堆叠 ===== */
+.fashion-data-right {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.fashion-data-right.visible {
+  opacity: 1;
+}
+
+.fashion-stack-right {
+  position: fixed;
+  right: 110px;
+  top: 58%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(-50%) translateX(24px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+
+.fashion-data-right.visible .fashion-stack-right {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.fashion-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.fashion-num-right {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+}
+
+.fashion-label-right {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  white-space: nowrap;
+}
+
+/* ===== 洗护数据 右侧两列竖排（右列长、左列短） ===== */
+.care-data {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.care-data.visible {
+  opacity: 1;
+}
+
+.care-col {
+  position: fixed;
+  top: 58%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(-50%) translateX(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.care-data.visible .care-col {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* 左列（短，3条） */
+.care-col-left {
+  right: 310px;
+  transition-delay: 0.1s;
+}
+
+/* 右列（长，5条） */
+.care-col-right {
+  right: 56px;
+  transition-delay: 0.2s;
+}
+
+.care-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.care-num {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+}
+
+.care-label {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  white-space: nowrap;
+}
+
+/* ===== 箱包数据 右上角+左下角 ===== */
+.bag-data {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.bag-data.visible {
+  opacity: 1;
+}
+
+/* 右上角容器 */
+.bag-top-right {
+  position: fixed;
+  top: 80px;
+  right: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 28px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+}
+
+.bag-data.visible .bag-top-right {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bag-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 48px;
+}
+
+/* 左下角容器 */
+.bag-bottom-left {
+  position: fixed;
+  bottom: 80px;
+  left: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease 0.25s, transform 0.6s ease 0.25s;
+}
+
+.bag-data.visible .bag-bottom-left {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 数据项通用 */
+.bag-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bag-item-right {
+  align-items: flex-end;
+}
+
+.bag-item-left {
+  align-items: flex-start;
+}
+
+.bag-num {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+}
+
+.bag-label {
+  font-family: 'Alibaba PuHuiTi', 'PingFang SC', sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  white-space: nowrap;
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+  .brand-logo {
+    top: 16px;
+    left: 18px;
+    width: 76px;
+  }
+  .headline-sub { font-size: 13px; }
+  .headline-cta { font-size: 15px; }
+  .scroll-arrow { bottom: 32px; }
+  .scroll-arrow svg { width: 30px; height: 30px; }
+  .data-num { font-size: 20px; }
+  .data-text { font-size: 12px; }
+  .beauty-stack { right: 24px; gap: 14px; }
+  .beauty-num { font-size: 28px; }
+  .beauty-label { font-size: 16px; }
+  .fashion-stack { left: 24px; gap: 14px; }
+  .fashion-num { font-size: 28px; }
+  .fashion-label { font-size: 16px; }
+  .fashion-stack-right { right: 24px; gap: 14px; }
+  .fashion-num-right { font-size: 28px; }
+  .fashion-label-right { font-size: 16px; }
+  .care-col-left { right: 170px; gap: 14px; }
+  .care-col-right { right: 24px; gap: 14px; }
+  .care-num { font-size: 28px; }
+  .care-label { font-size: 16px; }
+  .bag-top-right { top: 60px; right: 24px; gap: 16px; }
+  .bag-row { gap: 24px; }
+  .bag-bottom-left { bottom: 60px; left: 24px; gap: 16px; }
+  .bag-num { font-size: 28px; }
+  .bag-label { font-size: 16px; }
+  .ending-text { top: 9%; }
+  .ending-line1 { font-size: 16px; }
+  .ending-line2 { font-size: 16px; max-width: 320px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 第一个视频（默认显示） -->
+<video class="bg-video" id="video1" preload="metadata" playsinline muted>
+  <source src="assets/睁眼过程.mp4" type="video/mp4">
+</video>
+
+<!-- 第二个视频（预加载，默认隐藏，无缝切换） -->
+<video class="bg-video" id="video2" preload="auto" playsinline muted>
+  <source src="assets/视频2.mp4" type="video/mp4">
+</video>
+
+<!-- 第三个视频（预加载，默认隐藏，无缝切换） -->
+<video class="bg-video" id="video3" preload="auto" playsinline muted>
+  <source src="assets/视频3.mp4" type="video/mp4">
+</video>
+
+<!-- 第四个视频（预加载，默认隐藏，无缝切换） -->
+<video class="bg-video" id="video4" preload="auto" playsinline muted>
+  <source src="assets/视频4.mp4" type="video/mp4">
+</video>
+
+<!-- 第五个视频（预加载，默认隐藏，无缝切换） -->
+<video class="bg-video" id="video5" preload="auto" playsinline muted>
+  <source src="assets/视频5.mp4" type="video/mp4">
+</video>
+
+<!-- 第六个视频（预加载，默认隐藏，无缝切换） -->
+<video class="bg-video" id="video6" preload="auto" playsinline muted>
+  <source src="assets/视频6.mp4" type="video/mp4">
+</video>
+
+<!-- 第七个视频（预加载，默认隐藏，无缝切换） -->
+<video class="bg-video" id="video7" preload="auto" playsinline muted>
+  <source src="assets/视频7.mp4" type="video/mp4">
+</video>
+
+<!-- 第八个视频（预加载，默认隐藏，无缝切换） -->
+<video class="bg-video" id="video8" preload="auto" playsinline muted>
+  <source src="assets/视频8.mp4" type="video/mp4">
+</video>
+
+<!-- 左上角淘宝 Logo -->
+<img class="brand-logo" src="assets/taobao-logo.png" alt="淘宝">
+
+<!-- 居中文字（点击后隐藏） -->
+<div class="text-layer" id="textLayer">
+  <div class="headline-sub">淘 宝 ， 中 国 最 领 先 的 数 字 消 费 平 台</div>
+  <div class="headline-cta" id="ctaText">点击开始探索</div>
+</div>
+
+<!-- 向下箭头（第二个视频就绪后显示，点击播放） -->
+<div class="scroll-arrow" id="scrollArrow" aria-label="向下探索">
+  <svg viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</div>
+
+<!-- 继续图标（第三个视频就绪后显示，点击播放） -->
+<div class="continue-btn" id="continueBtn" aria-label="继续">
+  <svg viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</div>
+
+<!-- 继续图标2（第四个视频就绪后显示，点击播放） -->
+<div class="continue-btn" id="continueBtn2" aria-label="继续">
+  <svg viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</div>
+
+<!-- 继续图标3（第五个视频就绪后显示，点击播放） -->
+<div class="continue-btn" id="continueBtn3" aria-label="继续">
+  <svg viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</div>
+
+<!-- 继续图标4（第六个视频就绪后显示，点击播放） -->
+<div class="continue-btn" id="continueBtn4" aria-label="继续">
+  <svg viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</div>
+
+<!-- 继续图标5（第七个视频就绪后显示，点击播放） -->
+<div class="continue-btn" id="continueBtn5" aria-label="继续">
+  <svg viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</div>
+
+<!-- 继续图标6（第七个视频播完后显示，示意继续） -->
+<div class="continue-btn" id="continueBtn6" aria-label="继续">
+  <svg viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</div>
+
+<!-- 继续图标7（第八个视频播完后显示，点击回到开头） -->
+<div class="continue-btn" id="continueBtn7" aria-label="重新开始">
+  <svg viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+</div>
+
+<!-- 结尾文字（logo隐藏后渐变出现） -->
+<div class="ending-text" id="endingText">
+  <div class="ending-line1">拥 抱 技 术 变 革，深 耕 消 费 市 场</div>
+  <div class="ending-line2">构 筑 用 户 、 商 家 协 同 发 展 的 数 字 零 售 新 图 景</div>
+</div>
+
+<!-- 散落式销量数据标签（第二个视频播完后出现） -->
+<div class="data-labels" id="dataLabels">
+  <div class="data-label" style="top:12%; left:8%; transform:rotate(-4deg);">
+    <span class="data-num">1000万+</span>
+    <span class="data-text">条手串年销量</span>
+  </div>
+  <div class="data-label" style="top:10%; right:10%; transform:rotate(3deg);">
+    <span class="data-num">566%</span>
+    <span class="data-text">手串销量同比增长</span>
+  </div>
+  <div class="data-label" style="top:22%; left:22%; transform:rotate(2deg);">
+    <span class="data-num">7190亿</span>
+    <span class="data-text">饰品行业市场规模</span>
+  </div>
+  <div class="data-label" style="top:30%; right:18%; transform:rotate(-3deg);">
+    <span class="data-num">10.7万</span>
+    <span class="data-text">单款戒指销量</span>
+  </div>
+  <div class="data-label" style="bottom:28%; left:10%; transform:rotate(4deg);">
+    <span class="data-num">600%</span>
+    <span class="data-text">水晶手串搜索增长</span>
+  </div>
+  <div class="data-label" style="bottom:22%; right:12%; transform:rotate(-2deg);">
+    <span class="data-num">40%+</span>
+    <span class="data-text">25-30岁消费人群</span>
+  </div>
+  <div class="data-label" style="bottom:10%; left:18%; transform:rotate(-3deg);">
+    <span class="data-num">50万+</span>
+    <span class="data-text">首饰商家入驻</span>
+  </div>
+  <div class="data-label" style="bottom:12%; right:20%; transform:rotate(2deg);">
+    <span class="data-num">60%+</span>
+    <span class="data-text">Z世代消费者占比</span>
+  </div>
+  <div class="data-label" style="top:38%; left:11%; transform:rotate(-2deg);">
+    <span class="data-num">3312亿</span>
+    <span class="data-text">珠宝电商年零售额</span>
+  </div>
+  <div class="data-label" style="top:50%; left:16%; transform:rotate(3deg);">
+    <span class="data-num">1000个+</span>
+    <span class="data-text">饰品品牌双11翻倍</span>
+  </div>
+  <div class="data-label" style="top:36%; right:11%; transform:rotate(2deg);">
+    <span class="data-num">43.9%</span>
+    <span class="data-text">淘宝天猫珠宝份额</span>
+  </div>
+  <div class="data-label" style="top:50%; right:15%; transform:rotate(-3deg);">
+    <span class="data-num">25.6%</span>
+    <span class="data-text">珠宝行业规模增长</span>
+  </div>
+</div>
+
+<!-- 美妆数据（第三个视频播完后出现，右侧垂直堆叠） -->
+<div class="beauty-data" id="beautyData">
+  <div class="beauty-stack">
+    <div class="beauty-item">
+      <span class="beauty-num">2431亿</span>
+      <span class="beauty-label">淘天美妆年GMV</span>
+    </div>
+    <div class="beauty-item">
+      <span class="beauty-num">57.37%</span>
+      <span class="beauty-label">国货市场份额</span>
+    </div>
+    <div class="beauty-item">
+      <span class="beauty-num">589个</span>
+      <span class="beauty-label">品牌成交额破亿</span>
+    </div>
+    <div class="beauty-item">
+      <span class="beauty-num">71.65%</span>
+      <span class="beauty-label">00后护肤购买率</span>
+    </div>
+    <div class="beauty-item">
+      <span class="beauty-num">38.6%</span>
+      <span class="beauty-label">淘天彩妆增速</span>
+    </div>
+    <div class="beauty-item">
+      <span class="beauty-num">40%+</span>
+      <span class="beauty-label">美妆品类复购率</span>
+    </div>
+  </div>
+</div>
+
+<!-- 服装数据（第一个视频播完后出现，左侧垂直堆叠） -->
+<div class="fashion-data" id="fashionData">
+  <div class="fashion-stack">
+    <div class="fashion-item">
+      <span class="fashion-num">6821亿</span>
+      <span class="fashion-label">淘天服饰年GMV</span>
+    </div>
+    <div class="fashion-item">
+      <span class="fashion-num">53.1%</span>
+      <span class="fashion-label">服饰行业市场占比</span>
+    </div>
+    <div class="fashion-item">
+      <span class="fashion-num">57.5%</span>
+      <span class="fashion-label">双11成交份额全网第一</span>
+    </div>
+    <div class="fashion-item">
+      <span class="fashion-num">15.8%</span>
+      <span class="fashion-label">服饰品类增速领跑</span>
+    </div>
+    <div class="fashion-item">
+      <span class="fashion-num">1088个</span>
+      <span class="fashion-label">品牌成交同比超500%</span>
+    </div>
+  </div>
+</div>
+
+<!-- 服装数据右侧列（第一个视频播完后出现，右侧垂直堆叠） -->
+<div class="fashion-data-right" id="fashionDataRight">
+  <div class="fashion-stack-right">
+    <div class="fashion-item-right">
+      <span class="fashion-num-right">58%</span>
+      <span class="fashion-label-right">运动户外双11份额</span>
+    </div>
+    <div class="fashion-item-right">
+      <span class="fashion-num-right">1246亿</span>
+      <span class="fashion-label-right">淘宝直播服饰成交额</span>
+    </div>
+    <div class="fashion-item-right">
+      <span class="fashion-num-right">42.6%</span>
+      <span class="fashion-label-right">Z世代贡献订单量</span>
+    </div>
+    <div class="fashion-item-right">
+      <span class="fashion-num-right">40%+</span>
+      <span class="fashion-label-right">天猫618服饰复购率</span>
+    </div>
+    <div class="fashion-item-right">
+      <span class="fashion-num-right">5000+</span>
+      <span class="fashion-label-right">健身行业入驻品牌</span>
+    </div>
+  </div>
+</div>
+
+<!-- 洗护数据（第四个视频播完后出现，右侧两列竖排，右列长左列短） -->
+<div class="care-data" id="careData">
+  <!-- 左列（短，3条） -->
+  <div class="care-col care-col-left">
+    <div class="care-item">
+      <span class="care-num">550亿+</span>
+      <span class="care-label">头发洗护市场规模</span>
+    </div>
+    <div class="care-item">
+      <span class="care-num">9亿+</span>
+      <span class="care-label">头发洗护年销量</span>
+    </div>
+    <div class="care-item">
+      <span class="care-num">14.6%</span>
+      <span class="care-label">美发护发同比增长</span>
+    </div>
+  </div>
+  <!-- 右列（长，5条） -->
+  <div class="care-col care-col-right">
+    <div class="care-item">
+      <span class="care-num">164亿</span>
+      <span class="care-label">淘天洗发护发销售额</span>
+    </div>
+    <div class="care-item">
+      <span class="care-num">202亿</span>
+      <span class="care-label">淘天身体洗护销售额</span>
+    </div>
+    <div class="care-item">
+      <span class="care-num">41%</span>
+      <span class="care-label">洗发护发市场占比</span>
+    </div>
+    <div class="care-item">
+      <span class="care-num">68.5%</span>
+      <span class="care-label">天猫洗发水线上份额</span>
+    </div>
+    <div class="care-item">
+      <span class="care-num">20%</span>
+      <span class="care-label">天猫美发护发增速</span>
+    </div>
+    <div class="care-item">
+      <span class="care-num">93.61%</span>
+      <span class="care-label">洗发水品类销售额占比</span>
+    </div>
+  </div>
+</div>
+
+<!-- 箱包数据（第五个视频播完后出现，右上角+左下角） -->
+<div class="bag-data" id="bagData">
+  <!-- 右上角：第一行3条 + 第二行2条 -->
+  <div class="bag-top-right">
+    <div class="bag-row bag-row-1">
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">724.6亿</span>
+        <span class="bag-label">天猫包袋前三季销售额</span>
+      </div>
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">412亿</span>
+        <span class="bag-label">天猫真皮手袋GMV</span>
+      </div>
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">63.5%</span>
+        <span class="bag-label">真皮手袋线上占比</span>
+      </div>
+    </div>
+    <div class="bag-row bag-row-2">
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">15席</span>
+        <span class="bag-label">618箱包TOP20国货占比</span>
+      </div>
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">38%</span>
+        <span class="bag-label">男包天猫渠道占比</span>
+      </div>
+    </div>
+  </div>
+  <!-- 左下角：两行，每行1条 -->
+  <div class="bag-bottom-left">
+    <div class="bag-item bag-item-left">
+      <span class="bag-num">127.4%</span>
+      <span class="bag-label">真皮手袋直播增速</span>
+    </div>
+    <div class="bag-item bag-item-left">
+      <span class="bag-num">28.6%</span>
+      <span class="bag-label">箱包行业同比增速</span>
+    </div>
+  </div>
+</div>
+
+<!-- 鞋类数据（第六个视频播完后出现，右上角+左下角，排版同箱包） -->
+<div class="bag-data" id="shoeData">
+  <!-- 右上角：第一行3条 + 第二行2条 -->
+  <div class="bag-top-right">
+    <div class="bag-row bag-row-1">
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">42%</span>
+        <span class="bag-label">天猫鞋类市场份额</span>
+      </div>
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">5425亿</span>
+        <span class="bag-label">运动鞋服市场规模</span>
+      </div>
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">196亿</span>
+        <span class="bag-label">运动鞋Q2销售额</span>
+      </div>
+    </div>
+    <div class="bag-row bag-row-2">
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">32.1%</span>
+        <span class="bag-label">天猫球鞋线上份额</span>
+      </div>
+      <div class="bag-item bag-item-right">
+        <span class="bag-num">38.5%</span>
+        <span class="bag-label">鞋类Z世代用户占比</span>
+      </div>
+    </div>
+  </div>
+  <!-- 左下角：两行，每行1条 -->
+  <div class="bag-bottom-left">
+    <div class="bag-item bag-item-left">
+      <span class="bag-num">15.9%</span>
+      <span class="bag-label">运动鞋服4年复合增速</span>
+    </div>
+    <div class="bag-item bag-item-left">
+      <span class="bag-num">58.4%</span>
+      <span class="bag-label">球鞋线上销售占比</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const video1 = document.getElementById('video1');
+  const video2 = document.getElementById('video2');
+  const video3 = document.getElementById('video3');
+  const video4 = document.getElementById('video4');
+  const video5 = document.getElementById('video5');
+  const video6 = document.getElementById('video6');
+  const video7 = document.getElementById('video7');
+  const video8 = document.getElementById('video8');
+  const textLayer = document.getElementById('textLayer');
+  const ctaText = document.getElementById('ctaText');
+  const scrollArrow = document.getElementById('scrollArrow');
+  const continueBtn = document.getElementById('continueBtn');
+  const continueBtn2 = document.getElementById('continueBtn2');
+  const continueBtn3 = document.getElementById('continueBtn3');
+  const continueBtn4 = document.getElementById('continueBtn4');
+  const continueBtn5 = document.getElementById('continueBtn5');
+  const continueBtn6 = document.getElementById('continueBtn6');
+  const continueBtn7 = document.getElementById('continueBtn7');
+  const brandLogo = document.querySelector('.brand-logo');
+  const endingText = document.getElementById('endingText');
+  const dataLabels = document.getElementById('dataLabels');
+  const beautyData = document.getElementById('beautyData');
+  const fashionData = document.getElementById('fashionData');
+  const fashionDataRight = document.getElementById('fashionDataRight');
+  const careData = document.getElementById('careData');
+  const bagData = document.getElementById('bagData');
+  const shoeData = document.getElementById('shoeData');
+
+  // 点击"点击开始探索" → 隐藏文字 + 播放第一个视频
+  ctaText.addEventListener('click', function() {
+    textLayer.classList.add('hidden');
+    video1.play().catch(function(err) {
+      console.warn('视频1播放失败:', err);
+    });
+  });
+
+  // 第一个视频播放结束 → 显示左右两侧服装数据 + 向下箭头，同时提前把视频2 seek到第一帧
+  video1.addEventListener('ended', function() {
+    fashionData.classList.add('visible');
+    fashionDataRight.classList.add('visible');
+    scrollArrow.classList.add('visible');
+    video2.currentTime = 0;
+  });
+
+  // 点击向下箭头 → 隐藏两侧服装数据，先启动播放，延迟后再瞬时切换画面
+  scrollArrow.addEventListener('click', function() {
+    fashionData.classList.remove('visible');
+    fashionDataRight.classList.remove('visible');
+    scrollArrow.classList.remove('visible');
+    video2.play();
+    setTimeout(function() {
+      video1.style.opacity = '0';
+      video2.style.opacity = '1';
+    }, 200);
+  });
+
+  // 第二个视频播放结束 → 显示继续图标和数据标签，同时提前把视频3 seek到第一帧
+  video2.addEventListener('ended', function() {
+    continueBtn.classList.add('visible');
+    dataLabels.classList.add('visible');
+    video3.currentTime = 0;
+  });
+
+  // 点击继续图标 → 先隐藏按钮和数据并启动播放，延迟后再瞬时切换画面
+  continueBtn.addEventListener('click', function() {
+    continueBtn.classList.remove('visible');
+    dataLabels.classList.remove('visible');
+    video3.play();
+    setTimeout(function() {
+      video2.style.opacity = '0';
+      video3.style.opacity = '1';
+    }, 200);
+  });
+
+  // 第三个视频播放结束 → 显示美妆数据 + 继续箭头，同时提前把视频4 seek到第一帧
+  video3.addEventListener('ended', function() {
+    beautyData.classList.add('visible');
+    continueBtn2.classList.add('visible');
+    video4.currentTime = 0;
+  });
+
+  // 点击继续箭头2 → 隐藏美妆数据和箭头，先启动播放，延迟后再瞬时切换画面
+  continueBtn2.addEventListener('click', function() {
+    beautyData.classList.remove('visible');
+    continueBtn2.classList.remove('visible');
+    video4.play();
+    setTimeout(function() {
+      video3.style.opacity = '0';
+      video4.style.opacity = '1';
+    }, 200);
+  });
+
+  // 第四个视频播放结束 → 显示洗护数据 + 继续箭头，同时提前把视频5 seek到第一帧
+  video4.addEventListener('ended', function() {
+    careData.classList.add('visible');
+    continueBtn3.classList.add('visible');
+    video5.currentTime = 0;
+  });
+
+  // 点击继续箭头3 → 隐藏洗护数据和箭头，先启动播放，延迟后再瞬时切换画面
+  continueBtn3.addEventListener('click', function() {
+    careData.classList.remove('visible');
+    continueBtn3.classList.remove('visible');
+    video5.play();
+    setTimeout(function() {
+      video4.style.opacity = '0';
+      video5.style.opacity = '1';
+    }, 200);
+  });
+
+  // 第五个视频播放结束 → 显示箱包数据 + 继续箭头，同时提前把视频6 seek到第一帧
+  video5.addEventListener('ended', function() {
+    bagData.classList.add('visible');
+    continueBtn4.classList.add('visible');
+    video6.currentTime = 0;
+  });
+
+  // 点击继续箭头4 → 隐藏箱包数据和箭头，先启动播放，延迟后再瞬时切换画面
+  continueBtn4.addEventListener('click', function() {
+    bagData.classList.remove('visible');
+    continueBtn4.classList.remove('visible');
+    video6.play();
+    setTimeout(function() {
+      video5.style.opacity = '0';
+      video6.style.opacity = '1';
+    }, 200);
+  });
+
+  // 第六个视频播放结束 → 显示鞋类数据 + 继续箭头，同时提前把视频7 seek到第一帧
+  video6.addEventListener('ended', function() {
+    shoeData.classList.add('visible');
+    continueBtn5.classList.add('visible');
+    video7.currentTime = 0;
+  });
+
+  // 点击继续箭头5 → 隐藏鞋类数据和箭头，先启动播放，延迟后再瞬时切换画面
+  continueBtn5.addEventListener('click', function() {
+    shoeData.classList.remove('visible');
+    continueBtn5.classList.remove('visible');
+    video7.play();
+    setTimeout(function() {
+      video6.style.opacity = '0';
+      video7.style.opacity = '1';
+    }, 200);
+  });
+
+  // 第七个视频播放结束 → 隐藏logo，渐变出现结尾文字，延迟后再显示继续箭头，同时提前把视频8 seek到第一帧
+  video7.addEventListener('ended', function() {
+    brandLogo.classList.add('hidden');
+    endingText.classList.add('visible');
+    video8.currentTime = 0;
+    // 文字出现后延迟一下再显示箭头
+    setTimeout(function() {
+      continueBtn6.classList.add('visible');
+    }, 1200);
+  });
+
+  // 点击继续箭头6 → 隐藏箭头和结尾文字，先启动播放，延迟后再瞬时切换画面
+  continueBtn6.addEventListener('click', function() {
+    continueBtn6.classList.remove('visible');
+    endingText.classList.remove('visible');
+    video8.play();
+    setTimeout(function() {
+      video7.style.opacity = '0';
+      video8.style.opacity = '1';
+    }, 200);
+  });
+
+  // 第八个视频播放结束 → 显示继续箭头
+  video8.addEventListener('ended', function() {
+    continueBtn7.classList.add('visible');
+  });
+
+  // 点击继续箭头7 → 重置回最开始的界面
+  continueBtn7.addEventListener('click', function() {
+    // 隐藏所有箭头
+    continueBtn7.classList.remove('visible');
+    // 隐藏所有数据层
+    fashionData.classList.remove('visible');
+    fashionDataRight.classList.remove('visible');
+    dataLabels.classList.remove('visible');
+    beautyData.classList.remove('visible');
+    careData.classList.remove('visible');
+    bagData.classList.remove('visible');
+    shoeData.classList.remove('visible');
+    endingText.classList.remove('visible');
+    // 显示logo和初始文字
+    brandLogo.classList.remove('hidden');
+    textLayer.classList.remove('hidden');
+    // 暂停所有视频，重置video1到第一帧并显示
+    [video2, video3, video4, video5, video6, video7, video8].forEach(function(v) {
+      v.pause();
+      v.style.opacity = '0';
+    });
+    video1.currentTime = 0;
+    video1.style.opacity = '1';
+  });
+
+})();
+</script>
+
+</body>
+</html>
