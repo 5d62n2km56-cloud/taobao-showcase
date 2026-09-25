@@ -1389,6 +1389,42 @@ body {
     video1.style.opacity = '0';
   });
 
+  // ===== 键盘 / 滚轮 / 触控板 快捷跳转 =====
+  function triggerNext() {
+    var arrows = [scrollArrow, continueBtn, continueBtn2, continueBtn3, continueBtn4, continueBtn5, continueBtn6, continueBtn7];
+    for (var i = 0; i < arrows.length; i++) {
+      if (arrows[i].classList.contains('visible')) {
+        arrows[i].click();
+        return;
+      }
+    }
+    // 首页时触发"点击开始探索"
+    if (!textLayer.classList.contains('hidden')) {
+      ctaText.click();
+    }
+  }
+
+  // 键盘：下方向键 / S键
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+      e.preventDefault();
+      triggerNext();
+    }
+  });
+
+  // 鼠标滚轮 / 触控板向下滑动（800ms冷却防止误触多次）
+  var wheelCooldown = false;
+  document.addEventListener('wheel', function(e) {
+    if (e.deltaY > 0 && !wheelCooldown) {
+      e.preventDefault();
+      wheelCooldown = true;
+      triggerNext();
+      setTimeout(function() {
+        wheelCooldown = false;
+      }, 800);
+    }
+  }, { passive: false });
+
 })();
 </script>
 
